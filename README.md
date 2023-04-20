@@ -51,10 +51,6 @@ The application should now be running at http://localhost:5000.
 
 This project is licensed under the MIT License. See the LICENSE file for details.
 
-## Contributing
-
-Contributions are welcome! Please see the CONTRIBUTING.md file for guidelines.
-
 ## Contact
 
-If you have any questions or suggestions, please contact me at email@example.com.
+If you have any questions or suggestions, please contact me at rameztaher2002@gmail.com

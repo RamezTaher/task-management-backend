@@ -16,31 +16,36 @@ This is a web-based application for managing tasks. Users can create, update, an
 ## Technologies Used
 
 - Node.js
-- Express.js
-- MongoDB
-- Mongoose
+- NestJs
+- MySql
+- Typeorm
 - Passport.js
-- Handlebars.js
-- Bootstrap
+- Typescript
 
 ## Getting Started
 
 ```bash
 1. Clone the repository:
+
 $ git clone https://github.com/RamezTaher/task-management-tasks.git
 
 2. Install the dependencies:
+
 $ cd task-management-tasks
 $ npm install
 
 3. Set up the environment variables:
+
 $ cp .env.example .env
 $ Edit the `.env` file and replace the values with your own.
 
 4. Start the application:
+
 $ npm run start:dev
 
 The application should now be running at http://localhost:5000.
+
+```
 
 ## License
 
@@ -53,7 +58,3 @@ Contributions are welcome! Please see the CONTRIBUTING.md file for guidelines.
 ## Contact
 
 If you have any questions or suggestions, please contact me at email@example.com.
-
-
-
-```

@@ -1,0 +1,34 @@
+import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
+import entities from './utils/typeorm';
+import { PassportModule } from '@nestjs/passport';
+
+@Module({
+  imports: [
+    ConfigModule.forRoot({
+      envFilePath: '.env.development',
+    }),
+    PassportModule.register({ session: true }),
+
+    TypeOrmModule.forRoot({
+      type: 'mysql',
+      host: 'containers-us-west-54.railway.app',
+      port: 5992,
+      username: 'root',
+      password: 'uTHkmkjU397FJn4W1Xe9',
+      database: 'railway',
+      entities,
+      synchronize: true,
+      logging: false,
+    }),
+
+    UsersModule,
+    AuthModule,
+  ],
+  controllers: [],
+  providers: [],
+})
+export class AppModule {}

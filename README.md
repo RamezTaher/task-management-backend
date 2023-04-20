@@ -27,7 +27,7 @@ This is a web-based application for managing tasks. Users can create, update, an
 ```bash
 1. Clone the repository:
 
-$ git clone https://github.com/RamezTaher/task-management-tasks.git
+$ git clone https://github.com/RamezTaher/task-management-backend.git
 
 2. Install the dependencies:
 

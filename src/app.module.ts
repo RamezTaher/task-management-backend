@@ -6,6 +6,7 @@ import { AuthModule } from './auth/auth.module';
 import entities from './utils/typeorm';
 import { PassportModule } from '@nestjs/passport';
 import { ClientsModule } from './clients/clients.module';
+import { InterventionsModule } from './interventions/interventions.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { ClientsModule } from './clients/clients.module';
     ConsultantsModule,
     AuthModule,
     ClientsModule,
+    InterventionsModule,
   ],
   controllers: [],
   providers: [],

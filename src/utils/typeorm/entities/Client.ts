@@ -39,8 +39,4 @@ export class Client {
     default: 'client',
   })
   role: string;
-
-  @OneToMany(() => Intervention, (intervention) => intervention.client)
-  @JoinColumn()
-  interventions: Intervention[];
 }

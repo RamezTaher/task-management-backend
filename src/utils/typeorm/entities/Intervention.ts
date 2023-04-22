@@ -5,17 +5,17 @@ import { Client } from './Client';
 @Entity({ name: 'interventions' })
 export class Intervention {
   @PrimaryGeneratedColumn({ name: 'intervention_id' })
-  interventionId: number;
+  id: number;
 
-  @Column({ name: 'start_date' })
+  @Column()
   startDate: Date;
 
-  @Column({ name: 'end_date' })
+  @Column()
   endDate: Date;
 
-  @ManyToOne(() => Consultant)
-  consultant: Consultant;
+  @Column()
+  description: string;
 
-  @ManyToOne(() => Client)
-  client: Client;
+  @ManyToOne(() => Consultant, (consultant) => consultant.interventions)
+  consultant: Consultant;
 }

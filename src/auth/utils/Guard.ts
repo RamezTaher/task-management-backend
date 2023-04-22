@@ -15,12 +15,28 @@ export class ConsultantAuthGuard extends AuthGuard('consultant') {
     return result;
   }
 }
+@Injectable()
+export class ClientAuthGuard extends AuthGuard('client') {
+  async canActivate(context: ExecutionContext) {
+    const result = (await super.canActivate(context)) as boolean;
+    const request = context.switchToHttp().getRequest();
+    await super.logIn(request);
+    return result;
+  }
+}
 
 @Injectable()
-export class AuthenticatedGuard implements CanActivate {
+export class ConsultantAuthenticatedGuard implements CanActivate {
   async canActivate(context: ExecutionContext) {
     const request = context.switchToHttp().getRequest();
-    return request.isAuthenticated();
+    return request.isAuthenticated() && request.user.type === 'consultant';
+  }
+}
+@Injectable()
+export class ClientAuthenticatedGuard implements CanActivate {
+  async canActivate(context: ExecutionContext) {
+    const request = context.switchToHttp().getRequest();
+    return request.isAuthenticated() && request.user.type === 'client';
   }
 }
 

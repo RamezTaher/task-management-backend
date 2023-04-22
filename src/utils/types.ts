@@ -13,6 +13,10 @@ export type LoginConsultantParams = {
   email: string;
   password: string;
 };
+export type LoginClientParams = {
+  email: string;
+  password: string;
+};
 
 export interface AuthenticatedRequest extends Request {
   user: Consultant;

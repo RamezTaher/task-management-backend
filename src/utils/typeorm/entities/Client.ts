@@ -1,5 +1,12 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { Exclude } from 'class-transformer';
+import { Intervention } from './Intervention';
 
 @Entity({ name: 'clients' })
 export class Client {
@@ -32,4 +39,8 @@ export class Client {
     default: 'client',
   })
   role: string;
+
+  @OneToMany(() => Intervention, (intervention) => intervention.client)
+  @JoinColumn()
+  interventions: Intervention[];
 }

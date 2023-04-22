@@ -1,21 +1,21 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { ConsultantsService } from 'src/consultants/consultants.service';
 
-import { UsersService } from 'src/users/users.service';
-import { LoginUserParams } from 'src/utils/types';
 import { compare } from 'src/utils/helpers';
+import { LoginConsultantParams } from 'src/utils/types';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly userService: UsersService) {}
-  async validateUser(loginUserParams: LoginUserParams) {
-    const user = await this.userService.findUser({
-      email: loginUserParams.email,
+  constructor(private readonly consultantService: ConsultantsService) {}
+  async validateConsultant(loginConsultantParams: LoginConsultantParams) {
+    const user = await this.consultantService.findConsultant({
+      email: loginConsultantParams.email,
     });
 
     if (!user)
       throw new HttpException('Invalid Credentials', HttpStatus.UNAUTHORIZED);
     const isPasswordCorrect = await compare(
-      loginUserParams.password,
+      loginConsultantParams.password,
       user.password,
     );
     return isPasswordCorrect ? user : null;

@@ -10,28 +10,41 @@ import {
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { instanceToPlain } from 'class-transformer';
-import { CreateUserDto } from './dtos/CreateUser.dto';
-import { UsersService } from 'src/users/users.service';
-import { AuthenticatedGuard, LocalAuthGuard } from './utils/Guard';
+import { AuthenticatedGuard, ConsultantAuthGuard } from './utils/Guard';
+import { ConsultantsService } from 'src/consultants/consultants.service';
+import { CreateConsultantDto } from './dtos/CreateConsultant.dto';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly userService: UsersService) {}
+  constructor(private readonly consultantService: ConsultantsService) {}
 
-  @Post('register')
-  async registerUser(@Body() createUserDto: CreateUserDto) {
-    return instanceToPlain(await this.userService.createUser(createUserDto));
+  @Post('consultant/register')
+  async registerUser(@Body() createConsultantDto: CreateConsultantDto) {
+    return instanceToPlain(
+      await this.consultantService.createConsultant(createConsultantDto),
+    );
   }
 
-  @UseGuards(LocalAuthGuard)
-  @Post('login')
+  @UseGuards(ConsultantAuthGuard)
+  @Post('consultant/login')
   login(@Res() res: Response) {
     return res.send(HttpStatus.OK);
   }
 
-  @Get('status')
+  @Get('consultant/status')
   @UseGuards(AuthenticatedGuard)
   async status(@Req() req: Request, @Res() res: Response) {
     return res.send(instanceToPlain(req.user));
+  }
+
+  @UseGuards(ConsultantAuthGuard)
+  @Post('consultant/logout')
+  logout(@Req() req: Request, @Res() res: Response) {
+    req.logout((err: any) => {
+      if (err) {
+        return res.send(HttpStatus.INTERNAL_SERVER_ERROR);
+      }
+      return res.send(HttpStatus.OK);
+    });
   }
 }

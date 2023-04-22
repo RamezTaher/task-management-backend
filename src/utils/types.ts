@@ -1,15 +1,15 @@
-import { User } from './typeorm';
+import { Consultant } from './typeorm';
 
-export type FindUserParams = Partial<{
+export type FindConsultantParams = Partial<{
   email: string;
   id: number;
 }>;
 
-export type LoginUserParams = {
+export type LoginConsultantParams = {
   email: string;
   password: string;
 };
 
 export interface AuthenticatedRequest extends Request {
-  user: User;
+  user: Consultant;
 }

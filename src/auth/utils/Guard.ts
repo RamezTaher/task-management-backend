@@ -7,7 +7,7 @@ import {
 import { AuthGuard } from '@nestjs/passport';
 
 @Injectable()
-export class LocalAuthGuard extends AuthGuard('local') {
+export class ConsultantAuthGuard extends AuthGuard('consultant') {
   async canActivate(context: ExecutionContext) {
     const result = (await super.canActivate(context)) as boolean;
     const request = context.switchToHttp().getRequest();
@@ -25,11 +25,24 @@ export class AuthenticatedGuard implements CanActivate {
 }
 
 @Injectable()
-export class AdminGuard implements CanActivate {
+export class ConsultantGuard implements CanActivate {
   async canActivate(context: ExecutionContext): Promise<any> {
     const req = context.switchToHttp().getRequest();
     const user = req.user;
-    if (user && user.role === 'admin') {
+    if (user && user.role === 'consultant') {
+      return true;
+    }
+    throw new UnauthorizedException(
+      'You are not authorized to access this resource.',
+    );
+  }
+}
+@Injectable()
+export class ClientGuard implements CanActivate {
+  async canActivate(context: ExecutionContext): Promise<any> {
+    const req = context.switchToHttp().getRequest();
+    const user = req.user;
+    if (user && user.role === 'client') {
       return true;
     }
     throw new UnauthorizedException(

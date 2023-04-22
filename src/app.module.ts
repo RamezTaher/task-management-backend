@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UsersModule } from './users/users.module';
+import { ConsultantsModule } from './consultants/consultants.module';
 import { AuthModule } from './auth/auth.module';
 import entities from './utils/typeorm';
 import { PassportModule } from '@nestjs/passport';
@@ -25,7 +25,7 @@ import { PassportModule } from '@nestjs/passport';
       logging: false,
     }),
 
-    UsersModule,
+    ConsultantsModule,
     AuthModule,
   ],
   controllers: [],

@@ -7,7 +7,7 @@ import {
 } from 'class-validator';
 import { Transform } from 'class-transformer';
 
-export class CreateUserDto {
+export class CreateConsultantDto {
   @IsNotEmpty()
   @IsEmail()
   email: string;

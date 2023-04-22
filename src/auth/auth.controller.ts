@@ -10,12 +10,7 @@ import {
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { instanceToPlain } from 'class-transformer';
-import {
-  ClientAuthGuard,
-  ClientAuthenticatedGuard,
-  ConsultantAuthGuard,
-  ConsultantAuthenticatedGuard,
-} from './utils/Guard';
+import { ClientAuthGuard, ConsultantAuthGuard } from './utils/Guard';
 import { ConsultantsService } from 'src/consultants/consultants.service';
 import { CreateConsultantDto } from './dtos/CreateConsultant.dto';
 import { ClientsService } from 'src/clients/clients.service';
@@ -50,18 +45,6 @@ export class AuthController {
   @UseGuards(ClientAuthGuard)
   @Post('client/login')
   loginClient(@Req() req: Request, @Res() res: Response) {
-    return res.send(instanceToPlain(req.user));
-  }
-
-  @Get('consultant/status')
-  @UseGuards(ConsultantAuthenticatedGuard)
-  async consultantStatus(@Req() req: Request, @Res() res: Response) {
-    return res.send(instanceToPlain(req.user));
-  }
-
-  @Get('client/status')
-  @UseGuards(ClientAuthenticatedGuard)
-  async clientStatus(@Req() req: Request, @Res() res: Response) {
     return res.send(instanceToPlain(req.user));
   }
 

@@ -19,7 +19,7 @@ export class ConsultantsService {
       email: createConsultantDto.email,
     });
     if (existingConsultant)
-      throw new HttpException('User already exists', HttpStatus.CONFLICT);
+      throw new HttpException('Consultant already exists', HttpStatus.CONFLICT);
     const password = await hashPassword(createConsultantDto.password);
     const newConsultant = this.consultantRepository.create({
       ...createConsultantDto,

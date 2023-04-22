@@ -4,6 +4,10 @@ export type FindConsultantParams = Partial<{
   email: string;
   id: number;
 }>;
+export type FindClientParams = Partial<{
+  email: string;
+  id: number;
+}>;
 
 export type LoginConsultantParams = {
   email: string;

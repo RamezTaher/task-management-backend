@@ -28,7 +28,7 @@ export class AuthController {
   @UseGuards(ConsultantAuthGuard)
   @Post('consultant/login')
   login(@Res() res: Response) {
-    return res.send(HttpStatus.OK);
+    return res.sendStatus(HttpStatus.OK);
   }
 
   @Get('consultant/status')
@@ -42,9 +42,9 @@ export class AuthController {
   logout(@Req() req: Request, @Res() res: Response) {
     req.logout((err: any) => {
       if (err) {
-        return res.send(HttpStatus.INTERNAL_SERVER_ERROR);
+        return res.sendStatus(HttpStatus.INTERNAL_SERVER_ERROR);
       }
-      return res.send(HttpStatus.OK);
+      return res.sendStatus(HttpStatus.OK);
     });
   }
 }

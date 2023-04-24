@@ -1,4 +1,5 @@
 import { Consultant } from './typeorm';
+import { IntevrentionStatus } from './typeorm/entities/Intervention';
 
 export type FindConsultantParams = Partial<{
   email: string;
@@ -16,6 +17,10 @@ export type LoginConsultantParams = {
 export type LoginClientParams = {
   email: string;
   password: string;
+};
+
+export type UpdateInterventionStatus = {
+  status: IntevrentionStatus;
 };
 
 export interface AuthenticatedRequest extends Request {

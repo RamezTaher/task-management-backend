@@ -1,10 +1,4 @@
-import {
-  IsDate,
-  IsEmail,
-  IsNotEmpty,
-  MaxLength,
-  MinLength,
-} from 'class-validator';
+import { IsDate, IsNotEmpty } from 'class-validator';
 import { Transform } from 'class-transformer';
 import { Consultant } from 'src/utils/typeorm';
 

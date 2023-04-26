@@ -14,12 +14,14 @@ import { ClientAuthGuard, ConsultantAuthGuard } from './utils/Guard';
 import { ConsultantsService } from 'src/consultants/consultants.service';
 import { CreateConsultantDto } from './dtos/CreateConsultant.dto';
 import { ClientsService } from 'src/clients/clients.service';
+import { AuthService } from './auth.service';
 
 @Controller('auth')
 export class AuthController {
   constructor(
     private readonly consultantService: ConsultantsService,
     private readonly clientService: ClientsService,
+    private readonly authServices: AuthService,
   ) {}
 
   @Post('consultant/register')
@@ -45,7 +47,7 @@ export class AuthController {
   @UseGuards(ClientAuthGuard)
   @Post('client/login')
   loginClient(@Req() req: Request, @Res() res: Response) {
-    return res.send(instanceToPlain(req.user));
+    return this.authServices.login(req.user);
   }
 
   @UseGuards(ConsultantAuthGuard)

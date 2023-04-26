@@ -1,18 +1,19 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import { ClientsService } from 'src/clients/clients.service';
 import { ConsultantsService } from 'src/consultants/consultants.service';
 
 import { compare } from 'src/utils/helpers';
-import { LoginClientParams, LoginConsultantParams } from 'src/utils/types';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly consultantService: ConsultantsService,
+    private readonly jwtService: JwtService,
 
     private readonly clientService: ClientsService,
   ) {}
-  async validateConsultant(loginConsultantParams: LoginConsultantParams) {
+  async validateConsultant(loginConsultantParams: any) {
     const user = await this.consultantService.findConsultant({
       email: loginConsultantParams.email,
     });
@@ -25,7 +26,7 @@ export class AuthService {
     );
     return isPasswordCorrect ? user : null;
   }
-  async validateClient(loginClientParams: LoginClientParams) {
+  async validateClient(loginClientParams: any) {
     const user = await this.clientService.findClient({
       email: loginClientParams.email,
     });
@@ -37,5 +38,13 @@ export class AuthService {
       user.password,
     );
     return isPasswordCorrect ? user : null;
+  }
+
+  async login(user: any) {
+    const payload = { sub: user.userId };
+
+    return {
+      access_token: this.jwtService.sign(payload),
+    };
   }
 }

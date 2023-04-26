@@ -4,24 +4,20 @@ import { AuthController } from './auth.controller';
 import { ConsultantsModule } from 'src/consultants/consultants.module';
 import { PassportModule } from '@nestjs/passport';
 import { ConsultantStrategy } from './utils/ConsultantStrategy';
-import { ConsultantSerializer } from './utils/ConsultantSerializer';
 import { ClientsModule } from 'src/clients/clients.module';
 import { ClientStrategy } from './utils/ClientStrategy';
-import { ClientSerializer } from './utils/ClientSerializer';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
     ConsultantsModule,
     ClientsModule,
-    PassportModule.register({ session: true }),
+    JwtModule.register({
+      secret: 'asasasasasasasasas',
+      signOptions: { expiresIn: '2d' },
+    }),
   ],
   controllers: [AuthController],
-  providers: [
-    ConsultantStrategy,
-    ConsultantSerializer,
-    AuthService,
-    ClientStrategy,
-    ClientSerializer,
-  ],
+  providers: [ConsultantStrategy, AuthService, ClientStrategy],
 })
 export class AuthModule {}

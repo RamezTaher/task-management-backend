@@ -8,7 +8,7 @@ import * as passport from 'passport';
 import { TypeormStore } from 'connect-typeorm/out';
 
 async function bootstrap() {
-  const { PORT, COOKIE_SECRET } = process.env;
+  const { PORT } = process.env;
 
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.useGlobalPipes(new ValidationPipe());

@@ -13,7 +13,6 @@ import { InterventionsModule } from './interventions/interventions.module';
     ConfigModule.forRoot({
       envFilePath: '.env.development',
     }),
-    PassportModule.register({ session: true }),
 
     TypeOrmModule.forRoot({
       type: 'mysql',

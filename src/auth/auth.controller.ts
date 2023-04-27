@@ -10,11 +10,12 @@ import {
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { instanceToPlain } from 'class-transformer';
-import { AuthGuard } from './utils/Guard';
 import { ConsultantsService } from 'src/consultants/consultants.service';
 import { CreateConsultantDto } from './dtos/CreateConsultant.dto';
 import { ClientsService } from 'src/clients/clients.service';
 import { AuthService } from './auth.service';
+import { AuthGuard } from '@nestjs/passport';
+import { JwtAuthGuard, LocalAuthGuard } from './utils/Guard';
 
 @Controller('auth')
 export class AuthController {
@@ -43,12 +44,18 @@ export class AuthController {
     return res.send(instanceToPlain(req.user));
   }
 
+  // Without local guard everythign in the service 
   @Post('client/login')
-  loginClient(@Req() req: Request, @Res() res: Response) {
+  loginClient(@Req() req: Request) {
     return this.authServices.login(req.user);
   }
 
-  @UseGuards(AuthGuard)
+  @UseGuards(JwtAuthGuard)
+  @Get('client/status')
+  getProfile(@Req() req: Request) {
+    return instanceToPlain(req.user);
+  }
+
   @Post('consultant/logout')
   consultantLogout(@Req() req: Request, @Res() res: Response) {
     req.logout((err: any) => {
@@ -59,7 +66,6 @@ export class AuthController {
     });
   }
 
-  @UseGuards(AuthGuard)
   @Post('client/logout')
   clientLogout(@Req() req: Request, @Res() res: Response) {
     req.logout((err: any) => {

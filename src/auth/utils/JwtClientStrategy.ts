@@ -4,7 +4,7 @@ import { Injectable } from '@nestjs/common';
 import { ClientsService } from 'src/clients/clients.service';
 
 @Injectable()
-export class JwtStrategy extends PassportStrategy(Strategy) {
+export class JwtClientStrategy extends PassportStrategy(Strategy, 'jwtclient') {
   constructor(private readonly clientService: ClientsService) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -14,7 +14,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: any) {
-    const user = await this.clientService.findClient(payload.id);
+    const user = await this.clientService.findClient(payload.sub);
     return user;
   }
 }

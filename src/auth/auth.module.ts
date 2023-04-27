@@ -7,7 +7,8 @@ import { ConsultantStrategy } from './utils/ConsultantStrategy';
 import { ClientsModule } from 'src/clients/clients.module';
 import { ClientStrategy } from './utils/ClientStrategy';
 import { JwtModule } from '@nestjs/jwt';
-import { JwtStrategy } from './utils/JwtStrategy';
+import { JwtClientStrategy } from './utils/JwtClientStrategy';
+import { JwtConsultantStrategy } from './utils/JwtConsultantStrategy';
 
 @Module({
   imports: [
@@ -19,6 +20,12 @@ import { JwtStrategy } from './utils/JwtStrategy';
     }),
   ],
   controllers: [AuthController],
-  providers: [ConsultantStrategy, AuthService, ClientStrategy, JwtStrategy],
+  providers: [
+    ConsultantStrategy,
+    AuthService,
+    ClientStrategy,
+    JwtClientStrategy,
+    JwtConsultantStrategy,
+  ],
 })
 export class AuthModule {}

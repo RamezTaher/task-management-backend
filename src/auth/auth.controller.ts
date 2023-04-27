@@ -5,7 +5,7 @@ import {
   HttpStatus,
   Post,
   Req,
-  Res,
+  HttpCode,
   UseGuards,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
@@ -14,8 +14,12 @@ import { ConsultantsService } from 'src/consultants/consultants.service';
 import { CreateConsultantDto } from './dtos/CreateConsultant.dto';
 import { ClientsService } from 'src/clients/clients.service';
 import { AuthService } from './auth.service';
-import { AuthGuard } from '@nestjs/passport';
-import { JwtAuthGuard, LocalAuthGuard } from './utils/Guard';
+import {
+  JwtClientAuthGuard,
+  JwtConsultantAuthGuard,
+  LocalClientAuthGuard,
+  LocalConsultantAuthGuard,
+} from './utils/Guard';
 
 @Controller('auth')
 export class AuthController {
@@ -38,41 +42,28 @@ export class AuthController {
       await this.clientService.createClient(createConsultantDto),
     );
   }
-
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(LocalConsultantAuthGuard)
   @Post('consultant/login')
-  loginConsultant(@Req() req: Request, @Res() res: Response) {
-    return res.send(instanceToPlain(req.user));
+  loginConsultant(@Req() req: Request) {
+    return this.authServices.login(req.user);
   }
 
-  // Without local guard everythign in the service 
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(LocalClientAuthGuard)
   @Post('client/login')
   loginClient(@Req() req: Request) {
     return this.authServices.login(req.user);
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtClientAuthGuard)
   @Get('client/status')
-  getProfile(@Req() req: Request) {
+  getClientProfile(@Req() req: Request) {
     return instanceToPlain(req.user);
   }
-
-  @Post('consultant/logout')
-  consultantLogout(@Req() req: Request, @Res() res: Response) {
-    req.logout((err: any) => {
-      if (err) {
-        return res.sendStatus(HttpStatus.INTERNAL_SERVER_ERROR);
-      }
-      return res.sendStatus(HttpStatus.OK);
-    });
-  }
-
-  @Post('client/logout')
-  clientLogout(@Req() req: Request, @Res() res: Response) {
-    req.logout((err: any) => {
-      if (err) {
-        return res.sendStatus(HttpStatus.INTERNAL_SERVER_ERROR);
-      }
-      return res.sendStatus(HttpStatus.OK);
-    });
+  @UseGuards(JwtConsultantAuthGuard)
+  @Get('consultant/status')
+  getConsultantProfile(@Req() req: Request) {
+    return instanceToPlain(req.user);
   }
 }

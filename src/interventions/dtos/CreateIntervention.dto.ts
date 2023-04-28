@@ -15,7 +15,4 @@ export class CreateInterventionDto {
   @Transform(({ value }) => new Date(value))
   @IsDate()
   endDate: string;
-
-  @IsNotEmpty()
-  consultant: Consultant;
 }

@@ -1,6 +1,5 @@
 import { IsDate, IsNotEmpty } from 'class-validator';
 import { Transform } from 'class-transformer';
-import { Consultant } from 'src/utils/typeorm';
 
 export class CreateInterventionDto {
   @IsNotEmpty()

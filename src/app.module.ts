@@ -8,6 +8,7 @@ import { PassportModule } from '@nestjs/passport';
 import { ClientsModule } from './clients/clients.module';
 import { InterventionsModule } from './interventions/interventions.module';
 import { TicketsModule } from './tickets/tickets.module';
+import { TasksModule } from './tasks/tasks.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { TicketsModule } from './tickets/tickets.module';
     ClientsModule,
     InterventionsModule,
     TicketsModule,
+    TasksModule,
   ],
   controllers: [],
   providers: [],

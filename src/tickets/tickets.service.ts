@@ -70,6 +70,16 @@ export class TicketsService {
     return ticket;
   }
 
+  async findTicketById(ticketId: number): Promise<Ticket> {
+    const ticket = await this.ticketRepository.findOne(ticketId);
+
+    if (!ticket) {
+      throw new NotFoundException(`ticket with ID ${ticketId} not found`);
+    }
+
+    return ticket;
+  }
+
   async getTicketsByConsultant(
     consultant: Consultant,
     status?: string,

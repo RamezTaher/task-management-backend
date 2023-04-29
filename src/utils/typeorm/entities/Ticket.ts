@@ -4,9 +4,11 @@ import {
   Column,
   ManyToOne,
   CreateDateColumn,
+  OneToMany,
 } from 'typeorm';
 import { Consultant } from './Consultant';
 import { Client } from './Client';
+import { Task } from './Task';
 
 export enum TicketStatus {
   OPEN = 'open',
@@ -49,4 +51,7 @@ export class Ticket {
 
   @ManyToOne(() => Consultant, (consultant) => consultant.tickets)
   consultant: Consultant;
+
+  @OneToMany(() => Task, (task) => task.ticket)
+  tasks: Task[];
 }

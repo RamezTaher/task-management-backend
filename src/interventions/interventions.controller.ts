@@ -22,7 +22,6 @@ import { instanceToPlain } from 'class-transformer';
 export class InterventionsController {
   constructor(private readonly interventionService: InterventionsService) {}
 
-  @HttpCode(HttpStatus.OK)
   @UseGuards(JwtConsultantAuthGuard)
   @Post('')
   async CreateIntervention(
@@ -37,7 +36,6 @@ export class InterventionsController {
     );
   }
 
-  @HttpCode(HttpStatus.OK)
   @UseGuards(JwtConsultantAuthGuard)
   @Put(':id')
   async updateIntervention(

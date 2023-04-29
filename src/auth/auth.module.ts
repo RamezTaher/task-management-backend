@@ -9,6 +9,7 @@ import { ClientStrategy } from './utils/ClientStrategy';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtClientStrategy } from './utils/JwtClientStrategy';
 import { JwtConsultantStrategy } from './utils/JwtConsultantStrategy';
+import { JwtAuthStrategy } from './utils/JwtAuthStrategy';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { JwtConsultantStrategy } from './utils/JwtConsultantStrategy';
     ClientStrategy,
     JwtClientStrategy,
     JwtConsultantStrategy,
+    JwtAuthStrategy,
   ],
 })
 export class AuthModule {}

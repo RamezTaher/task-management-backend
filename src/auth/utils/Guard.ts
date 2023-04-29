@@ -15,3 +15,5 @@ export class LocalConsultantAuthGuard extends AuthGuard('consultant') {}
 export class JwtClientAuthGuard extends AuthGuard('jwtclient') {}
 @Injectable()
 export class JwtConsultantAuthGuard extends AuthGuard('jwtconsultant') {}
+
+export class JwtAuthGuard extends AuthGuard('jwtauth') {}

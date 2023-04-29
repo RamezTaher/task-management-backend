@@ -5,6 +5,7 @@ import {
   ManyToOne,
   CreateDateColumn,
   OneToMany,
+  JoinColumn,
 } from 'typeorm';
 import { Consultant } from './Consultant';
 import { Client } from './Client';
@@ -18,7 +19,7 @@ export enum TicketStatus {
 }
 @Entity({ name: 'tickets' })
 export class Ticket {
-  @PrimaryGeneratedColumn({ name: 'ticket_id' })
+  @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
@@ -53,5 +54,6 @@ export class Ticket {
   consultant: Consultant;
 
   @OneToMany(() => Task, (task) => task.ticket)
+  @JoinColumn()
   tasks: Task[];
 }

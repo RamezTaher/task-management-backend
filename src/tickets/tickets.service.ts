@@ -25,7 +25,7 @@ export class TicketsService {
     );
     if (!consultant)
       throw new HttpException(
-        'This Channel Does Not Exist',
+        'This consultant Does Not Exist',
         HttpStatus.BAD_REQUEST,
       );
 
@@ -59,7 +59,7 @@ export class TicketsService {
 
   async getTicketById(ticketId: number): Promise<Ticket> {
     const ticket = await this.ticketRepository.findOne({
-      relations: ['consultant', 'client'],
+      relations: ['consultant', 'tasks'],
       where: { id: ticketId },
     });
 
@@ -77,6 +77,7 @@ export class TicketsService {
     let queryBuilder = this.ticketRepository
       .createQueryBuilder('ticket')
       .leftJoin('ticket.consultant', 'consultant')
+      .leftJoinAndSelect('ticket.client', 'client')
       .where('ticket.consultant.id = :id', { id: consultant.id });
 
     if (status) {
@@ -92,6 +93,7 @@ export class TicketsService {
     let queryBuilder = this.ticketRepository
       .createQueryBuilder('ticket')
       .leftJoin('ticket.client', 'client')
+      .leftJoinAndSelect('ticket.consultant', 'consultant')
       .where('ticket.client.id = :id', { id: client.id });
 
     if (status) {

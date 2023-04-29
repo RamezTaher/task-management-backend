@@ -7,7 +7,7 @@ import {
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
 import { Intervention } from './Intervention';
-import { Ticket } from "./Ticket";
+import { Ticket } from './Ticket';
 
 @Entity({ name: 'consultants' })
 export class Consultant {
@@ -46,5 +46,6 @@ export class Consultant {
   interventions: Intervention[];
 
   @OneToMany(() => Ticket, (ticket) => ticket.consultant)
+  @JoinColumn()
   tickets: Ticket[];
 }

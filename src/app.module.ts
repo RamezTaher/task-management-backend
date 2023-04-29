@@ -16,10 +16,10 @@ import { InterventionsModule } from './interventions/interventions.module';
 
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'containers-us-west-54.railway.app',
-      port: 5992,
+      host: 'containers-us-west-112.railway.app',
+      port: 7361,
       username: 'root',
-      password: 'uTHkmkjU397FJn4W1Xe9',
+      password: 'HgVkeA9l003WDSNMIDN3',
       database: 'railway',
       entities,
       synchronize: true,

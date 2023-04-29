@@ -73,13 +73,21 @@ export class InterventionsService {
   }
 
   async getInterventionsByConsultant(
-    user: Consultant,
+    consultant: Consultant,
+    status?: string,
   ): Promise<Intervention[]> {
-    const interventions = await this.interventionRepository.find({
-      where: { consultant: user.id },
-    });
+    let queryBuilder = this.interventionRepository
+      .createQueryBuilder('intervention')
+      .leftJoin('intervention.consultant', 'consultant')
+      .where('intervention.consultant.id = :id', { id: consultant.id });
 
-    return interventions;
+    if (status) {
+      queryBuilder = queryBuilder.andWhere('intervention.status = :status', {
+        status,
+      });
+    }
+
+    return await queryBuilder.getMany();
   }
 
   async deleteInterventionById(interventionId: number) {

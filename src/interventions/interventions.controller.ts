@@ -9,6 +9,7 @@ import {
   HttpCode,
   Get,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { InterventionsService } from './interventions.service';
 import { CreateInterventionDto } from './dtos/CreateIntervention.dto';
@@ -58,10 +59,13 @@ export class InterventionsController {
   }
 
   @UseGuards(JwtConsultantAuthGuard)
-  @Get('consultant/interventions')
-  async getInterventionByConsultant(@AuthUser() user: Consultant) {
+  @Get('consultant/all')
+  async getInterventionByConsultant(
+    @AuthUser() user: Consultant,
+    @Query('status') status?: string,
+  ) {
     return instanceToPlain(
-      await this.interventionService.getInterventionsByConsultant(user),
+      await this.interventionService.getInterventionsByConsultant(user, status),
     );
   }
 

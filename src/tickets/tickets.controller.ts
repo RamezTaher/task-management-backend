@@ -69,6 +69,6 @@ export class TicketsController {
   @UseGuards(JwtClientAuthGuard)
   @Delete(':id')
   async deleteTicketById(@Param('id') ticketId: number) {
-    return instanceToPlain(await this.ticketService.deleteTicketById(ticketId));
+    return await this.ticketService.deleteTicketById(ticketId);
   }
 }

@@ -119,7 +119,7 @@ export class TicketsService {
     const result = await this.ticketRepository.delete(ticketId);
 
     if (result.affected === 0) {
-      throw new NotFoundException(`Intervention with ID ${ticketId} not found`);
+      throw new NotFoundException(`Ticket with ID ${ticketId} not found`);
     }
     return {
       success: true,

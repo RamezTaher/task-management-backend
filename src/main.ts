@@ -5,7 +5,6 @@ import { ValidationPipe } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
 
 import * as passport from 'passport';
-import { TypeormStore } from 'connect-typeorm/out';
 
 async function bootstrap() {
   const { PORT } = process.env;

@@ -8,7 +8,7 @@ import {
   HttpCode,
   UseGuards,
 } from '@nestjs/common';
-import { Request, Response } from 'express';
+import { Request } from 'express';
 import { instanceToPlain } from 'class-transformer';
 import { ConsultantsService } from 'src/consultants/consultants.service';
 import { CreateConsultantDto } from './dtos/CreateConsultant.dto';

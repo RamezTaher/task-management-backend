@@ -6,7 +6,6 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
-import { Intervention } from './Intervention';
 import { Ticket } from './Ticket';
 
 @Entity({ name: 'clients' })

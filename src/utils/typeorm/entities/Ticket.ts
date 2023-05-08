@@ -6,6 +6,8 @@ import {
   CreateDateColumn,
   OneToMany,
   JoinColumn,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
 import { Consultant } from './Consultant';
 import { Client } from './Client';
@@ -50,8 +52,9 @@ export class Ticket {
   @ManyToOne(() => Client, (client) => client.tickets)
   client: Client;
 
-  @ManyToOne(() => Consultant, (consultant) => consultant.tickets)
-  consultant: Consultant;
+  @ManyToMany(() => Consultant)
+  @JoinTable()
+  consultants: Consultant[];
 
   @OneToMany(() => Task, (task) => task.ticket)
   @JoinColumn()

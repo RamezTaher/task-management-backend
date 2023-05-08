@@ -2,6 +2,8 @@ import {
   Column,
   Entity,
   JoinColumn,
+  JoinTable,
+  ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -45,7 +47,7 @@ export class Consultant {
   @JoinColumn()
   interventions: Intervention[];
 
-  @OneToMany(() => Ticket, (ticket) => ticket.consultant)
-  @JoinColumn()
+  @ManyToMany(() => Ticket)
+  @JoinTable()
   tickets: Ticket[];
 }

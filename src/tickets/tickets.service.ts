@@ -20,20 +20,10 @@ export class TicketsService {
   ) {}
 
   async createTicket(params: any, user: Client) {
-    const consultant = await this.consultantService.findConsultant(
-      params.consultantId,
-    );
-    if (!consultant)
-      throw new HttpException(
-        'This consultant Does Not Exist',
-        HttpStatus.BAD_REQUEST,
-      );
-
     const newTicket = this.ticketRepository.create({
       title: params.title,
       description: params.description,
       endDate: params.endDate,
-      consultant: instanceToPlain(consultant),
       client: instanceToPlain(user),
     });
 

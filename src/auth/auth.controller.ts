@@ -17,6 +17,7 @@ import { AuthService } from './auth.service';
 import {
   JwtClientAuthGuard,
   JwtConsultantAuthGuard,
+  LocalAdminAuthGuard,
   LocalClientAuthGuard,
   LocalConsultantAuthGuard,
 } from './utils/Guard';
@@ -53,6 +54,13 @@ export class AuthController {
   @UseGuards(LocalClientAuthGuard)
   @Post('client/login')
   loginClient(@Req() req: Request) {
+    return this.authServices.login(req.user);
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(LocalAdminAuthGuard)
+  @Post('admin/login')
+  loginAdmin(@Req() req: Request) {
     return this.authServices.login(req.user);
   }
 

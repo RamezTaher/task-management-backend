@@ -10,11 +10,14 @@ import { JwtModule } from '@nestjs/jwt';
 import { JwtClientStrategy } from './utils/JwtClientStrategy';
 import { JwtConsultantStrategy } from './utils/JwtConsultantStrategy';
 import { JwtAuthStrategy } from './utils/JwtAuthStrategy';
+import { AdminsModule } from 'src/admin/admins.module';
+import { JwtAdminStrategy } from './utils/JwtAdminStrategy';
 
 @Module({
   imports: [
     ConsultantsModule,
     ClientsModule,
+    AdminsModule,
     JwtModule.register({
       secret: 'asasasasasasasasas',
       signOptions: { expiresIn: '2d' },
@@ -28,6 +31,7 @@ import { JwtAuthStrategy } from './utils/JwtAuthStrategy';
     JwtClientStrategy,
     JwtConsultantStrategy,
     JwtAuthStrategy,
+    JwtAdminStrategy,
   ],
 })
 export class AuthModule {}

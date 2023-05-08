@@ -1,4 +1,9 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateClientDto } from 'src/auth/dtos/CreateClient.dto';
 import { hashPassword } from 'src/utils/helpers';
@@ -31,7 +36,50 @@ export class ClientsService {
     return this.clientRepository.findOne(findClientParams);
   }
 
-  async saveConsultant(client: Client) {
-    return this.clientRepository.save(client);
+  async getAllClient(): Promise<Client[]> {
+    return this.clientRepository.find();
+  }
+
+  async getClientById(clientId: number): Promise<Client> {
+    const client = await this.clientRepository.findOne({
+      // relations: ['consultant', 'tasks'],
+      where: { id: clientId },
+    });
+
+    if (!client) {
+      throw new NotFoundException(`Client with ID ${client} not found`);
+    }
+
+    return client;
+  }
+
+  async updateClient(clientId: number, updateClient: Partial<Client>) {
+    const client = await this.clientRepository.findOne(clientId);
+    if (!client)
+      throw new HttpException(
+        'No client Founded With Such ID',
+        HttpStatus.BAD_REQUEST,
+      );
+    const updatedClient = Object.assign(client, updateClient);
+
+    this.clientRepository.save(updatedClient);
+    return {
+      success: true,
+      statusCode: 200,
+      message: 'Client Updated Successfully',
+    };
+  }
+
+  async deleteClientById(clientId: number) {
+    const result = await this.clientRepository.delete(clientId);
+
+    if (result.affected === 0) {
+      throw new NotFoundException(`Ticket with ID ${clientId} not found`);
+    }
+    return {
+      success: true,
+      statusCode: 200,
+      message: 'Ticket Deleted Successfully',
+    };
   }
 }

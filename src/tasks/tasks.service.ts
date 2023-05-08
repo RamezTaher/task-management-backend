@@ -19,7 +19,7 @@ export class TasksService {
   ) {}
 
   async createTask(params: any) {
-    const ticket = await this.ticketService.findTicketById(params.ticketId);
+    const ticket = await this.ticketService.getTicketById(params.ticketId);
     if (!ticket)
       throw new HttpException(
         'This Ticket Does Not Exist',

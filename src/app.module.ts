@@ -15,18 +15,16 @@ import { TasksModule } from './tasks/tasks.module';
     ConfigModule.forRoot({
       envFilePath: '.env.development',
     }),
-
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'containers-us-west-134.railway.app',
-      port: 7929,
+      host: 'containers-us-west-116.railway.app',
+      port: 6894,
       username: 'root',
-      password: 'iGiwYZoSlWahgDOp3QU3',
+      password: 'ZvTspzLLzy973w7akA1J',
       database: 'railway',
       entities,
       synchronize: true,
     }),
-
     ConsultantsModule,
     AuthModule,
     ClientsModule,

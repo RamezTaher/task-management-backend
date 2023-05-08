@@ -74,12 +74,12 @@ export class ClientsService {
     const result = await this.clientRepository.delete(clientId);
 
     if (result.affected === 0) {
-      throw new NotFoundException(`Ticket with ID ${clientId} not found`);
+      throw new NotFoundException(`Client with ID ${clientId} not found`);
     }
     return {
       success: true,
       statusCode: 200,
-      message: 'Ticket Deleted Successfully',
+      message: 'Client Deleted Successfully',
     };
   }
 }

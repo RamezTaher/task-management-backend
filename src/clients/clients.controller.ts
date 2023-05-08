@@ -12,12 +12,15 @@ export class ClientsController {
   }
 
   @Get(':id')
-  async getClienttById(@Param('id') clientId: number) {
+  async getClientById(@Param('id') clientId: number) {
     return instanceToPlain(await this.clientService.getClientById(clientId));
   }
 
   @Put(':id')
-  async updateTicket(@Param('id') clientId: number, @Body() updateClient: any) {
+  async updateConsultant(
+    @Param('id') clientId: number,
+    @Body() updateClient: any,
+  ) {
     return await this.clientService.updateClient(clientId, updateClient);
   }
 

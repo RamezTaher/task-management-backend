@@ -1,4 +1,9 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Consultant } from 'src/utils/typeorm';
 import { Repository } from 'typeorm';
@@ -33,8 +38,55 @@ export class ConsultantsService {
   ): Promise<Consultant> {
     return this.consultantRepository.findOne(findConsultantParams);
   }
+  async getAllConsultants(): Promise<Consultant[]> {
+    return this.consultantRepository.find();
+  }
 
-  async saveConsultant(consultant: Consultant) {
-    return this.consultantRepository.save(consultant);
+  async getConsultantById(consultantId: number): Promise<Consultant> {
+    const consultant = await this.consultantRepository.findOne({
+      // relations: ['consultant', 'tasks'],
+      where: { id: consultantId },
+    });
+
+    if (!consultant) {
+      throw new NotFoundException(`Consultant with ID ${consultant} not found`);
+    }
+
+    return consultant;
+  }
+
+  async updateConsultant(
+    consultantId: number,
+    updateConsultant: Partial<Consultant>,
+  ) {
+    const consultant = await this.consultantRepository.findOne(consultantId);
+    if (!consultant)
+      throw new HttpException(
+        'No consultant Founded With Such ID',
+        HttpStatus.BAD_REQUEST,
+      );
+    const updatedConsultant = Object.assign(consultant, updateConsultant);
+
+    this.consultantRepository.save(updatedConsultant);
+    return {
+      success: true,
+      statusCode: 200,
+      message: 'Consultant Updated Successfully',
+    };
+  }
+
+  async deleteConsultantById(consultantId: number) {
+    const result = await this.consultantRepository.delete(consultantId);
+
+    if (result.affected === 0) {
+      throw new NotFoundException(
+        `Consultant with ID ${consultantId} not found`,
+      );
+    }
+    return {
+      success: true,
+      statusCode: 200,
+      message: 'Consultant Deleted Successfully',
+    };
   }
 }

@@ -17,10 +17,10 @@ import { TasksModule } from './tasks/tasks.module';
     }),
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'containers-us-west-116.railway.app',
-      port: 6894,
+      host: 'containers-us-west-84.railway.app',
+      port: 5793,
       username: 'root',
-      password: 'ZvTspzLLzy973w7akA1J',
+      password: 'fRTEdIm2SDfhwTEHhO4J',
       database: 'railway',
       entities,
       synchronize: true,

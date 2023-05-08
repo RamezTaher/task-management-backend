@@ -4,6 +4,7 @@ import { TicketsService } from './tickets.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Consultant, Ticket } from 'src/utils/typeorm';
 import { ConsultantsModule } from 'src/consultants/consultants.module';
+import { ConsultantsService } from 'src/consultants/consultants.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Consultant, Ticket]), ConsultantsModule],

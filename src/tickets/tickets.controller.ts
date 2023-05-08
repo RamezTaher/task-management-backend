@@ -9,11 +9,13 @@ import {
   Post,
   UseGuards,
   Delete,
+  Patch,
 } from '@nestjs/common';
 import { AuthUser } from 'src/utils/decorators';
 import { Client, Consultant } from 'src/utils/typeorm';
 import { CreateTicketDto } from './dtos/CreateTicket.dto';
 import {
+  JwtAdminAuthGuard,
   JwtAuthGuard,
   JwtClientAuthGuard,
   JwtConsultantAuthGuard,
@@ -30,6 +32,15 @@ export class TicketsController {
     @Body() createTicketDto: CreateTicketDto,
   ) {
     return await this.ticketService.createTicket(createTicketDto, user);
+  }
+
+  @UseGuards(JwtAdminAuthGuard)
+  @Patch(':id')
+  async assignConsultantToTicket(
+    @Param('id') ticketId: number,
+    @Body() body: any,
+  ) {
+    return await this.ticketService.assignConsultantToTicket(ticketId, body);
   }
 
   @UseGuards(JwtAuthGuard)

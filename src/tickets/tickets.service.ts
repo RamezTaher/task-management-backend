@@ -15,7 +15,6 @@ export class TicketsService {
   constructor(
     @InjectRepository(Ticket)
     private readonly ticketRepository: Repository<Ticket>,
-
     private readonly consultantService: ConsultantsService,
   ) {}
 
@@ -28,6 +27,36 @@ export class TicketsService {
     });
 
     return await this.ticketRepository.save(newTicket);
+  }
+
+  async assignConsultantToTicket(ticketId: number, body: any): Promise<Ticket> {
+    const ticket = await this.ticketRepository
+      .createQueryBuilder('ticket')
+      .leftJoinAndSelect('ticket.consultants', 'consultant')
+      .where('ticket.id = :id', { id: ticketId })
+      .getOne();
+    const consultant = await this.consultantService.findConsultant({
+      id: body.consultantId,
+    });
+
+    const assignedConsultantIds = ticket.consultants.map(
+      (consultant) => consultant.id,
+    );
+
+    if (!ticket || !consultant) {
+      throw new NotFoundException('Ticket or consultant not found');
+    }
+    if (assignedConsultantIds.includes(consultant.id)) {
+      throw new HttpException(
+        'Consultant Already exist on this Ticket',
+        HttpStatus.CONFLICT,
+      );
+    }
+
+    ticket.consultants.push(consultant);
+    await this.ticketRepository.save(ticket);
+
+    return ticket;
   }
 
   async updateTicket(ticketId: number, updateTicket: Partial<Ticket>) {
@@ -48,13 +77,15 @@ export class TicketsService {
   }
 
   async getTicketById(ticketId: number): Promise<Ticket> {
-    const ticket = await this.ticketRepository.findOne({
-      relations: ['consultant', 'tasks'],
-      where: { id: ticketId },
-    });
+    const ticket = await this.ticketRepository
+      .createQueryBuilder('ticket')
+      .leftJoinAndSelect('ticket.consultants', 'consultant')
+      .leftJoinAndSelect('ticket.tasks', 'task')
+      .where('ticket.id = :id', { id: ticketId })
+      .getOne();
 
     if (!ticket) {
-      throw new NotFoundException(`ticket with ID ${ticketId} not found`);
+      throw new NotFoundException(`Ticket with ID ${ticketId} not found`);
     }
 
     return ticket;
@@ -66,9 +97,9 @@ export class TicketsService {
   ): Promise<Ticket[]> {
     let queryBuilder = this.ticketRepository
       .createQueryBuilder('ticket')
-      .leftJoin('ticket.consultant', 'consultant')
+      .leftJoinAndSelect('ticket.consultants', 'consultant')
       .leftJoinAndSelect('ticket.client', 'client')
-      .where('ticket.consultant.id = :id', { id: consultant.id });
+      .where('consultant.id = :id', { id: consultant.id });
 
     if (status) {
       queryBuilder = queryBuilder.andWhere('ticket.status = :status', {
@@ -82,9 +113,9 @@ export class TicketsService {
   async getTicketsByClient(client: Client, status?: string): Promise<Ticket[]> {
     let queryBuilder = this.ticketRepository
       .createQueryBuilder('ticket')
-      .leftJoin('ticket.client', 'client')
-      .leftJoinAndSelect('ticket.consultant', 'consultant')
-      .where('ticket.client.id = :id', { id: client.id });
+      .leftJoinAndSelect('ticket.consultants', 'consultant')
+      .leftJoinAndSelect('ticket.client', 'client')
+      .where('client.id = :id', { id: client.id });
 
     if (status) {
       queryBuilder = queryBuilder.andWhere('ticket.status = :status', {

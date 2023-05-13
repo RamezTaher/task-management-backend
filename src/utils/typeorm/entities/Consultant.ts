@@ -48,6 +48,5 @@ export class Consultant {
   interventions: Intervention[];
 
   @ManyToMany(() => Ticket)
-  @JoinTable()
   tickets: Ticket[];
 }

@@ -34,7 +34,6 @@ export class TicketsController {
     return await this.ticketService.createTicket(createTicketDto, user);
   }
 
-  @UseGuards(JwtAdminAuthGuard)
   @Patch(':id')
   async assignConsultantToTicket(
     @Param('id') ticketId: number,

@@ -97,8 +97,9 @@ export class TicketsService {
   ): Promise<Ticket[]> {
     let queryBuilder = this.ticketRepository
       .createQueryBuilder('ticket')
-      .leftJoinAndSelect('ticket.consultants', 'consultant')
+      .leftJoin('ticket.consultants', 'consultant')
       .leftJoinAndSelect('ticket.client', 'client')
+      .leftJoinAndSelect('ticket.tasks', 'task')
       .where('consultant.id = :id', { id: consultant.id });
 
     if (status) {
@@ -114,7 +115,7 @@ export class TicketsService {
     let queryBuilder = this.ticketRepository
       .createQueryBuilder('ticket')
       .leftJoinAndSelect('ticket.consultants', 'consultant')
-      .leftJoinAndSelect('ticket.client', 'client')
+      .leftJoin('ticket.client', 'client')
       .where('client.id = :id', { id: client.id });
 
     if (status) {

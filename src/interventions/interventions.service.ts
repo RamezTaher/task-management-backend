@@ -8,23 +8,29 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Consultant, Intervention } from 'src/utils/typeorm';
 import { Repository } from 'typeorm';
 import { CreateInterventionDto } from './dtos/CreateIntervention.dto';
-import { instanceToPlain } from 'class-transformer';
-import { IntevrentionStatus } from 'src/utils/typeorm/entities/Intervention';
+import { InterventionsTypesService } from 'src/interventions-types/interventions-types.service';
 
 @Injectable()
 export class InterventionsService {
   constructor(
     @InjectRepository(Intervention)
     private readonly interventionRepository: Repository<Intervention>,
+    private readonly interventionsTypesService: InterventionsTypesService,
   ) {}
 
   async createIntervention(
     user: Consultant,
     createInterventionDto: CreateInterventionDto,
   ): Promise<Intervention> {
+    const interventionType =
+      await this.interventionsTypesService.getInterventionTypeById(
+        createInterventionDto.interventionTypeId,
+      );
     const newIntervention = this.interventionRepository.create({
-      ...createInterventionDto,
+      startDate: createInterventionDto.startDate,
+      endDate: createInterventionDto.endDate,
       consultant: user,
+      interventionType,
     });
 
     const savedIntervention = await this.interventionRepository.save(
@@ -42,8 +48,6 @@ export class InterventionsService {
         'No Intervention Founded With Such ID',
         HttpStatus.BAD_REQUEST,
       );
-    intervention.description =
-      updateIntervention.description || intervention.description;
     intervention.startDate =
       updateIntervention.startDate || intervention.startDate;
     intervention.endDate = updateIntervention.endDate || intervention.endDate;
@@ -59,7 +63,7 @@ export class InterventionsService {
 
   async getInterventionById(interventionId: number): Promise<Intervention> {
     const intervention = await this.interventionRepository.findOne({
-      relations: ['consultant'],
+      relations: ['consultant', 'interventionType'],
       where: { id: interventionId },
     });
 
@@ -79,6 +83,7 @@ export class InterventionsService {
     let queryBuilder = this.interventionRepository
       .createQueryBuilder('intervention')
       .leftJoin('intervention.consultant', 'consultant')
+      .leftJoinAndSelect('intervention.interventionType', 'interventionType')
       .where('intervention.consultant.id = :id', { id: consultant.id });
 
     if (status) {

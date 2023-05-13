@@ -9,6 +9,7 @@ import { ClientsModule } from './clients/clients.module';
 import { InterventionsModule } from './interventions/interventions.module';
 import { TicketsModule } from './tickets/tickets.module';
 import { TasksModule } from './tasks/tasks.module';
+import { InterventionsTypesModule } from './interventions-types/interventions-types.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { TasksModule } from './tasks/tasks.module';
     InterventionsModule,
     TicketsModule,
     TasksModule,
+    InterventionsTypesModule,
   ],
   controllers: [],
   providers: [],

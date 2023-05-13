@@ -1,5 +1,12 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
 import { Consultant } from './Consultant';
+import { InterventionType } from './InterventionType';
 
 export enum IntevrentionStatus {
   PENDING = 'pending',
@@ -8,7 +15,7 @@ export enum IntevrentionStatus {
 }
 @Entity({ name: 'interventions' })
 export class Intervention {
-  @PrimaryGeneratedColumn({ name: 'intervention_id' })
+  @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
@@ -17,15 +24,16 @@ export class Intervention {
   @Column()
   endDate: Date;
 
-  @Column()
-  description: string;
-
   @Column({
     type: 'enum',
     enum: IntevrentionStatus,
     default: IntevrentionStatus.PENDING,
   })
   status: IntevrentionStatus;
+
+  @ManyToOne(() => InterventionType)
+  @JoinColumn()
+  interventionType: InterventionType;
 
   @ManyToOne(() => Consultant, (consultant) => consultant.interventions)
   consultant: Consultant;

@@ -1,10 +1,8 @@
 import { IsDate, IsNotEmpty } from 'class-validator';
 import { Transform } from 'class-transformer';
+import { InterventionType } from 'src/utils/typeorm';
 
 export class CreateInterventionDto {
-  @IsNotEmpty()
-  description: string;
-
   @IsNotEmpty()
   @Transform(({ value }) => new Date(value))
   @IsDate()
@@ -14,4 +12,7 @@ export class CreateInterventionDto {
   @Transform(({ value }) => new Date(value))
   @IsDate()
   endDate: string;
+
+  @IsNotEmpty()
+  interventionTypeId: number;
 }

@@ -27,7 +27,7 @@ export class TicketsController {
   constructor(private readonly ticketService: TicketsService) {}
   @UseGuards(JwtClientAuthGuard)
   @Post()
-  async createChannel(
+  async createTicket(
     @AuthUser() user: Client,
     @Body() createTicketDto: CreateTicketDto,
   ) {

@@ -12,6 +12,7 @@ import { JwtConsultantStrategy } from './utils/JwtConsultantStrategy';
 import { JwtAuthStrategy } from './utils/JwtAuthStrategy';
 import { AdminsModule } from 'src/admin/admins.module';
 import { JwtAdminStrategy } from './utils/JwtAdminStrategy';
+import { AdminStrategy } from './utils/AdminStrategy';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { JwtAdminStrategy } from './utils/JwtAdminStrategy';
     ConsultantStrategy,
     AuthService,
     ClientStrategy,
+    AdminStrategy,
     JwtClientStrategy,
     JwtConsultantStrategy,
     JwtAuthStrategy,

@@ -75,6 +75,11 @@ export class TicketsController {
       await this.ticketService.getTicketsByClient(user, status),
     );
   }
+  @UseGuards(JwtAdminAuthGuard)
+  @Get('')
+  async getAllProjects(@Query('status') status?: string) {
+    return instanceToPlain(await this.ticketService.getAllProjects(status));
+  }
 
   @UseGuards(JwtClientAuthGuard)
   @Delete(':id')

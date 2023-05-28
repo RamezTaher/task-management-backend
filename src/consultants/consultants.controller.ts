@@ -2,7 +2,7 @@ import { Controller, Get, Body, Param, Delete, Put } from '@nestjs/common';
 import { ConsultantsService } from './consultants.service';
 import { instanceToPlain } from 'class-transformer';
 
-@Controller('Consultants')
+@Controller('consultants')
 export class ConsultantsController {
   constructor(private readonly ConsultantsService: ConsultantsService) {}
 

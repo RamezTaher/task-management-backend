@@ -20,13 +20,11 @@ import { CreateTaskDto } from './dtos/CreateTask.dto';
 export class TasksController {
   constructor(private readonly taskService: TasksService) {}
 
-  @UseGuards(JwtClientAuthGuard)
   @Post()
   async createTask(@Body() createTaskDto: CreateTaskDto) {
     return await this.taskService.createTask(createTaskDto);
   }
 
-  @UseGuards(JwtConsultantAuthGuard)
   @Put(':id')
   async updateTask(@Param('id') taskId: number, @Body() updateTask: any) {
     return await this.taskService.updateTask(taskId, updateTask);

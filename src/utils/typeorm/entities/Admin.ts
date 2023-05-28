@@ -22,15 +22,6 @@ export class Admin {
   email: string;
 
   @Column()
-  cin: string;
-
-  @Column()
-  phone: string;
-
-  @Column()
-  date_naissance: Date;
-
-  @Column()
   @Exclude()
   password: string;
 

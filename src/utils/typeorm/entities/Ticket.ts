@@ -15,7 +15,7 @@ import { Task } from './Task';
 
 export enum TicketStatus {
   OPEN = 'open',
-  INPROGRESS = 'in progress',
+  INPROGRESS = 'in-progress',
   RESOLVED = 'resolved',
   CLOSED = 'closed',
 }

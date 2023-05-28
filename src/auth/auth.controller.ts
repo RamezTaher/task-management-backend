@@ -15,18 +15,22 @@ import { CreateConsultantDto } from './dtos/CreateConsultant.dto';
 import { ClientsService } from 'src/clients/clients.service';
 import { AuthService } from './auth.service';
 import {
+  JwtAdminAuthGuard,
   JwtClientAuthGuard,
   JwtConsultantAuthGuard,
   LocalAdminAuthGuard,
   LocalClientAuthGuard,
   LocalConsultantAuthGuard,
 } from './utils/Guard';
+import { AdminsService } from 'src/admin/admins.service';
+import { createAdminDto } from 'src/admin/dtos/CreateAdmin.dto';
 
 @Controller('auth')
 export class AuthController {
   constructor(
     private readonly consultantService: ConsultantsService,
     private readonly clientService: ClientsService,
+    private readonly adminService: AdminsService,
     private readonly authServices: AuthService,
   ) {}
 
@@ -42,6 +46,10 @@ export class AuthController {
     return instanceToPlain(
       await this.clientService.createClient(createConsultantDto),
     );
+  }
+  @Post('admin/register')
+  async registerAdmin(@Body() createAdminDto: createAdminDto) {
+    return instanceToPlain(await this.adminService.createAdmin(createAdminDto));
   }
   @HttpCode(HttpStatus.OK)
   @UseGuards(LocalConsultantAuthGuard)
@@ -72,6 +80,11 @@ export class AuthController {
   @UseGuards(JwtConsultantAuthGuard)
   @Get('consultant/status')
   getConsultantProfile(@Req() req: Request) {
+    return instanceToPlain(req.user);
+  }
+  @UseGuards(JwtAdminAuthGuard)
+  @Get('admin/status')
+  getAdminProfile(@Req() req: Request) {
     return instanceToPlain(req.user);
   }
 }

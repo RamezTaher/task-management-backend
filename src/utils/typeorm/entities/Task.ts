@@ -8,8 +8,8 @@ import {
 import { Ticket } from './Ticket';
 
 export enum TaskStatus {
-  TODO = 'to do',
-  INPROGRESS = 'in progress',
+  TODO = 'to-do',
+  INPROGRESS = 'in-progress',
   DONE = 'done',
 }
 

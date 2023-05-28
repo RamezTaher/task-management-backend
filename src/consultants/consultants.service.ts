@@ -43,10 +43,11 @@ export class ConsultantsService {
   }
 
   async getConsultantById(consultantId: number): Promise<Consultant> {
-    const consultant = await this.consultantRepository.findOne({
-      // relations: ['consultant', 'tasks'],
-      where: { id: consultantId },
-    });
+    let consultant = this.consultantRepository
+      .createQueryBuilder('consultant')
+      .leftJoinAndSelect('consultant.interventions', 'intervention')
+      .where('consultant.id = :id', { id: consultantId })
+      .getOne();
 
     if (!consultant) {
       throw new NotFoundException(`Consultant with ID ${consultant} not found`);

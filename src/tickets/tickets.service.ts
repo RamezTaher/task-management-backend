@@ -126,6 +126,21 @@ export class TicketsService {
 
     return await queryBuilder.getMany();
   }
+  async getAllProjects(status?: string): Promise<Ticket[]> {
+    let queryBuilder = this.ticketRepository
+      .createQueryBuilder('ticket')
+      .leftJoinAndSelect('ticket.consultants', 'consultant')
+      .leftJoinAndSelect('ticket.client', 'client')
+      .leftJoinAndSelect('ticket.tasks', 'task');
+
+    if (status) {
+      queryBuilder = queryBuilder.andWhere('ticket.status = :status', {
+        status,
+      });
+    }
+
+    return await queryBuilder.getMany();
+  }
 
   async deleteTicketById(ticketId: number) {
     const result = await this.ticketRepository.delete(ticketId);

@@ -43,10 +43,13 @@ export class Consultant {
   })
   role: string;
 
-  @OneToMany(() => Intervention, (intervention) => intervention.consultant)
+  @OneToMany(() => Intervention, (intervention) => intervention.consultant, {
+    cascade: true,
+  })
   @JoinColumn()
   interventions: Intervention[];
 
   @ManyToMany(() => Ticket)
+  @JoinColumn()
   tickets: Ticket[];
 }

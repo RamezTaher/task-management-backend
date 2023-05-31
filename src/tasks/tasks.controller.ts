@@ -30,13 +30,11 @@ export class TasksController {
     return await this.taskService.updateTask(taskId, updateTask);
   }
 
-  @UseGuards(JwtAuthGuard)
   @Get(':id')
   async getTaskById(@Param('id') taskId: number) {
     return await this.taskService.getTaskById(taskId);
   }
 
-  @UseGuards(JwtClientAuthGuard)
   @Delete(':id')
   async deleteTaskById(@Param('id') taskId: number) {
     return await this.taskService.deleteTaskById(taskId);

@@ -75,6 +75,20 @@ export class InterventionsService {
 
     return intervention;
   }
+  async getAllInterventions(status?: string): Promise<Intervention[]> {
+    let queryBuilder = this.interventionRepository
+      .createQueryBuilder('intervention')
+      .leftJoinAndSelect('intervention.consultant', 'consultant')
+      .leftJoinAndSelect('intervention.interventionType', 'interventionType');
+
+    if (status) {
+      queryBuilder = queryBuilder.andWhere('intervention.status = :status', {
+        status,
+      });
+    }
+
+    return await queryBuilder.getMany();
+  }
 
   async getInterventionsByConsultant(
     consultant: Consultant,

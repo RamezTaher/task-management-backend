@@ -36,7 +36,6 @@ export class InterventionsController {
     );
   }
 
-  @UseGuards(JwtConsultantAuthGuard)
   @Put(':id')
   async updateIntervention(
     @Param('id') interventionId: number,
@@ -48,11 +47,17 @@ export class InterventionsController {
     );
   }
 
-  @UseGuards(JwtConsultantAuthGuard)
   @Get(':id')
   async getInterventionById(@Param('id') interventionId: number) {
     return instanceToPlain(
       await this.interventionService.getInterventionById(interventionId),
+    );
+  }
+
+  @Get('')
+  async getAllInterventions(@Query('status') status?: string) {
+    return instanceToPlain(
+      await this.interventionService.getAllInterventions(status),
     );
   }
 
@@ -67,8 +72,6 @@ export class InterventionsController {
     );
   }
 
-  @HttpCode(HttpStatus.OK)
-  @UseGuards(JwtConsultantAuthGuard)
   @Delete(':id')
   async deleteInterventionById(@Param('id') interventionId: number) {
     return instanceToPlain(

@@ -7,6 +7,7 @@ import {
   Query,
   Param,
   Post,
+  UseGuards,
   Delete,
   Patch,
 } from '@nestjs/common';
@@ -24,6 +25,7 @@ import { instanceToPlain } from 'class-transformer';
 @Controller('tickets')
 export class TicketsController {
   constructor(private readonly ticketService: TicketsService) {}
+  @UseGuards(JwtClientAuthGuard)
   @Post()
   async createTicket(
     @AuthUser() user: Client,
@@ -40,16 +42,19 @@ export class TicketsController {
     return await this.ticketService.assignConsultantToTicket(ticketId, body);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Put(':id')
   async updateTicket(@Param('id') ticketId: number, @Body() updateTicket: any) {
     return await this.ticketService.updateTicket(ticketId, updateTicket);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get(':id')
   async getTicketById(@Param('id') ticketId: number) {
     return instanceToPlain(await this.ticketService.getTicketById(ticketId));
   }
 
+  @UseGuards(JwtConsultantAuthGuard)
   @Get('consultant/all')
   async getTicketsByConsultant(
     @AuthUser() user: Consultant,
@@ -60,6 +65,7 @@ export class TicketsController {
     );
   }
 
+  @UseGuards(JwtClientAuthGuard)
   @Get('client/all')
   async getTicketsByClient(
     @AuthUser() user: Client,
@@ -69,6 +75,7 @@ export class TicketsController {
       await this.ticketService.getTicketsByClient(user, status),
     );
   }
+  @UseGuards(JwtAdminAuthGuard)
   @Get('')
   async getAllProjects(@Query('status') status?: string) {
     return instanceToPlain(await this.ticketService.getAllProjects(status));

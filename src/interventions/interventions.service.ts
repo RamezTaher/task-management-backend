@@ -52,6 +52,8 @@ export class InterventionsService {
       updateIntervention.startDate || intervention.startDate;
     intervention.endDate = updateIntervention.endDate || intervention.endDate;
     intervention.status = updateIntervention.status || intervention.status;
+    intervention.accepted_by =
+      updateIntervention.accepted_by || intervention.accepted_by;
 
     this.interventionRepository.save(intervention);
     return {
@@ -80,6 +82,24 @@ export class InterventionsService {
       .createQueryBuilder('intervention')
       .leftJoinAndSelect('intervention.consultant', 'consultant')
       .leftJoinAndSelect('intervention.interventionType', 'interventionType');
+
+    if (status) {
+      queryBuilder = queryBuilder.andWhere('intervention.status = :status', {
+        status,
+      });
+    }
+
+    return await queryBuilder.getMany();
+  }
+  async getAllInterventionsAccptedBy(
+    status?: string,
+    accepted_by?: string,
+  ): Promise<Intervention[]> {
+    let queryBuilder = this.interventionRepository
+      .createQueryBuilder('intervention')
+      .leftJoinAndSelect('intervention.consultant', 'consultant')
+      .leftJoinAndSelect('intervention.interventionType', 'interventionType')
+      .where('intervention.accepted_by=:accepted', { accepted: accepted_by });
 
     if (status) {
       queryBuilder = queryBuilder.andWhere('intervention.status = :status', {

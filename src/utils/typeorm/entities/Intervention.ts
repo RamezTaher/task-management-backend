@@ -24,6 +24,9 @@ export class Intervention {
   @Column()
   endDate: Date;
 
+  @Column({ default: 'none' })
+  accepted_by: string;
+
   @Column({
     type: 'enum',
     enum: IntevrentionStatus,

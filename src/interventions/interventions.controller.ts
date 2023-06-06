@@ -60,6 +60,18 @@ export class InterventionsController {
       await this.interventionService.getAllInterventions(status),
     );
   }
+  @Get('accepted/by')
+  async getAllInterventionsAccptedBy(
+    @Query('status') status?: string,
+    @Query('accepted') accepted?: string,
+  ) {
+    return instanceToPlain(
+      await this.interventionService.getAllInterventionsAccptedBy(
+        status,
+        accepted,
+      ),
+    );
+  }
 
   @UseGuards(JwtConsultantAuthGuard)
   @Get('consultant/all')
